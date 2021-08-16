@@ -1,0 +1,31 @@
+html {
+  box-sizing: border-box;
+}
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.gameboard {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  flex-direction: row;
+  flex-flow: wrap;
+  list-style: none;
+}
+
+.squares {
+  background-color: inherit;
+  border: 1px solid white;
+  color: white;
+  width: 166.6667px;
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
