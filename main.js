@@ -31,27 +31,15 @@ const Gameboard = (() => {
 })();
 
 const Game = (() => {
-  let turn = true;
-  let player;
-
-  if (turn === true) {
-    player = "x";
-  } else {
-    player = "o";
-  }
-
   board.addEventListener("click", (e) => {
     let square = e.target.classList[1];
     if (Gameboard.board[square].empty === true) {
+      let player = Player.handleTurns();
+      console.log(player);
       Gameboard.updateSquare(square, player);
-      !turn;
     } else {
-      console.log(
-        "Sorry, this square was already chosen. Pick another square!"
-      );
+      alert("Sorry, this square was already chosen. Pick another square!");
     }
-
-    console.log(Gameboard);
   });
 
   function populateBoard() {
@@ -69,8 +57,30 @@ const Game = (() => {
   };
 })();
 
-const Player = (name) => {
-  return { name };
-};
+const Player = (() => {
+  let player;
+  const playerOne = "x";
+  const playerTwo = "o";
+
+  const turnState = {
+    turn: true,
+  };
+
+  function handleTurns() {
+    if (turnState.turn === true) {
+      player = playerOne;
+    } else {
+      player = playerTwo;
+    }
+
+    turnState.turn = !turnState.turn;
+
+    return player;
+  }
+
+  return {
+    handleTurns,
+  };
+})();
 
 Game.populateBoard();
