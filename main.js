@@ -1,4 +1,5 @@
 const board = document.querySelector(".gameboard");
+const message = document.querySelector(".message");
 
 const Gameboard = (() => {
   let board = [
@@ -14,7 +15,6 @@ const Gameboard = (() => {
   ];
 
   function updateSquare(index, player) {
-    console.log(!this.board[index.empty]);
     return (
       (this.board[index] = {
         empty: false,
@@ -31,12 +31,13 @@ const Gameboard = (() => {
 })();
 
 const Game = (() => {
+  let player;
   board.addEventListener("click", (e) => {
     let square = e.target.classList[1];
     if (Gameboard.board[square].empty === true) {
-      let player = Player.handleTurns();
-      console.log(player);
+      player = Player.handleTurns();
       Gameboard.updateSquare(square, player);
+      handleLogic(Gameboard.board);
     } else {
       alert("Sorry, this square was already chosen. Pick another square!");
     }
@@ -52,15 +53,71 @@ const Game = (() => {
     });
   }
 
+  function handleLogic(arr) {
+    const { board } = Gameboard;
+    const messageP = document.createElement("p");
+    let messageText;
+
+    // check for winner
+    switch (true) {
+      case board[0].player === board[1].player &&
+        board[0].player === board[2].player &&
+        board[0].player !== "":
+        messageText = `${board[0].player} wins!`;
+        break;
+      case board[3].player === board[4].player &&
+        board[3].player === board[5].player &&
+        board[3].player !== "":
+        messageText = `${board[3].player} wins!`;
+        break;
+      case board[6].player === board[7].player &&
+        board[6].player === board[8].player &&
+        board[6].player !== "":
+        messageText = `${board[6].player} wins!`;
+        break;
+      case board[0].player === board[3].player &&
+        board[0].player === board[6].player &&
+        board[0].player !== "":
+        messageText = `${board[0].player} wins!`;
+        break;
+      case board[1].player === board[4].player &&
+        board[1].player === board[7].player &&
+        board[1].player !== "":
+        messageText = `${board[1].player} wins!`;
+        break;
+      case board[2].player === board[5].player &&
+        board[2].player === board[8].player &&
+        board[2].player !== "":
+        messageText = `${board[2].player} wins!`;
+        break;
+      case board[0].player === board[4].player &&
+        board[0].player === board[8].player &&
+        board[0].player !== "":
+        messageText = `${board[0].player} wins!`;
+        break;
+      case board[2].player === board[4].player &&
+        board[2].player === board[6].player &&
+        board[2].player !== "":
+        messageText = `${board[2].player} wins!`;
+        break;
+      default:
+        messageText = `${player === "X" ? "O" : "X"}, it's your turn`;
+    }
+
+    message.innerHTML = messageText;
+    message.appendChild(messageP);
+  }
+
   return {
     populateBoard,
+    handleLogic,
   };
 })();
 
 const Player = (() => {
   let player;
-  const playerOne = "x";
-  const playerTwo = "o";
+  const playerOne = "X";
+  const playerTwo = "O";
 
   const turnState = {
     turn: true,
